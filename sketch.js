@@ -13,14 +13,15 @@ function preload(){
 //Function to set initial environment
 function setup() {
   database=firebase.database();
-  createCanvas(1500,700);
+  createCanvas(1360,600);
 
   balloon=createSprite(250,450,150,150);
   balloon.addAnimation("hotAirBalloon",balloonImage1);
-  balloon.scale=0.5;
+  
 
-  var balloonPosition = database.ref("balloon/position");
-  balloonPosition.on("value", readPosition, showError);
+  var balloonPosition=database.ref('balloon/position')
+balloonPosition.on("value",readPosition,showError)
+balloon.scale=0.4;
 
   textSize(20); 
 }
@@ -30,31 +31,28 @@ function draw() {
   background(bg);
 
   if(keyDown(LEFT_ARROW)){
-
-    changePosition(-1,0);
     balloon.addAnimation("hotAirBalloon",balloonImage2);
     //write code to move air balloon in left direction
+    changePosition(-3,0);
   }
-
   else if(keyDown(RIGHT_ARROW)){
-
-    changePosition(1,0);
     balloon.addAnimation("hotAirBalloon",balloonImage2);
     //write code to move air balloon in right direction
+    changePosition(3,0);
   }
-
   else if(keyDown(UP_ARROW)){
-
-    changePosition(0,-10);
     balloon.addAnimation("hotAirBalloon",balloonImage2);
-    balloon.scale = balloon.scale - 0.01;
+    //write code to move air balloon in up direction
+    changePosition(0,-3);
+    balloon.scale=0.5;
 
+    
   }
   else if(keyDown(DOWN_ARROW)){
-
-    changePosition(0,+10);
     balloon.addAnimation("hotAirBalloon",balloonImage2);
-    balloon.scale = balloon.scale + 0.01;
+    //write code to move air balloon in down direction
+    changePosition(0,+3);
+    balloon.scale=0.3;
 
   }
 
@@ -65,21 +63,20 @@ function draw() {
   text("**Use arrow keys to move Hot Air Balloon!",40,40);
 }
 
-
 function changePosition(x,y){
-  database.ref("balloon/position").set({
-      'x':position.x + x,
-      'y':position.y + y
+  database.ref('balloon/position').set({
+ 'x':position.x+x,
+ 'y':position.y+y
   })
 }
 
 function readPosition(data){
-   position = data.val();
-   balloon.x = position.x;
-   balloon.y = position.y;
+ position=data.val()
+ balloon.x=position.x;
+ balloon.y=position.y;
 }
-
 
 function showError(){
-   console.log("Error in writing to the database");
+ console.log("Error in code")
 }
+
